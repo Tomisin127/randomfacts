@@ -50,29 +50,24 @@ export const GET = withX402(
     serviceName: "Random Fact",
     tags: ["facts", "trivia", "random", "json"],
     extensions: {
-      // ERC-8021 Builder Code attribution ("a" app code) on every settlement.
-      // declareBuilderCodeExtension returns an UNKEYED { info, schema } object, so it
-      // MUST be assigned under the BUILDER_CODE ("builder-code") key — spreading it at
-      // the top level dumps `info`/`schema` as loose keys and the resource server never
-      // emits the `a` app code into the settlement calldata.
+      // ERC-8021 Builder Code attribution. `declareBuilderCodeExtension` returns an
+      // UNKEYED { info: { a }, schema } object, so it MUST live under the BUILDER_CODE
+      // ("builder-code") key. The resource server then emits it in the 402
+      // PaymentRequired response; the paying client echoes the `a` app code into its
+      // payment payload, and the CDP facilitator encodes it into the settlement calldata.
       [BUILDER_CODE]: declareBuilderCodeExtension(MY_BUILDER_CODE),
-      // Bazaar discovery metadata: tells agents and facilitators how to call this endpoint.
-      ...(() => {
-        const ext = declareDiscoveryExtension({
-          output: {
-            example: {
-              fact: "Octopuses have three hearts and blue, copper-based blood.",
-              source: "randomfactsx402",
-            },
+      // Bazaar discovery metadata: tells agents and facilitators how to call this
+      // endpoint. `declareDiscoveryExtension` already returns a pre-keyed { bazaar }
+      // object, so it is spread directly. The resource server derives the routeTemplate
+      // and HTTP method during declaration enrichment.
+      ...declareDiscoveryExtension({
+        output: {
+          example: {
+            fact: "Octopuses have three hearts and blue, copper-based blood.",
+            source: "randomfactsx402",
           },
-        })
-        // Add routeTemplate to the bazaar extension object for facilitator validation.
-        if (ext.bazaar) {
-          // @ts-ignore - routeTemplate is validated by the Bazaar facilitator at runtime
-          ext.bazaar.routeTemplate = "/api/random-fact"
-        }
-        return ext
-      })(),
+        },
+      }),
     },
   },
   resourceServer,
