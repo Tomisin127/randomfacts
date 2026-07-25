@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { withX402 } from "@x402/next"
-import { declareBuilderCodeExtension } from "@x402/extensions/builder-code"
+import { BUILDER_CODE, declareBuilderCodeExtension } from "@x402/extensions/builder-code"
 import { declareDiscoveryExtension } from "@x402/extensions/bazaar"
 import { resourceServer, BASE_MAINNET, PAY_TO_ADDRESS, PRICE, MY_BUILDER_CODE } from "@/lib/x402"
 
@@ -51,8 +51,11 @@ export const GET = withX402(
     tags: ["facts", "trivia", "random", "json"],
     extensions: {
       // ERC-8021 Builder Code attribution ("a" app code) on every settlement.
-      // The declare function returns an unkeyed object; spread it at the top level.
-      ...declareBuilderCodeExtension(MY_BUILDER_CODE),
+      // declareBuilderCodeExtension returns an UNKEYED { info, schema } object, so it
+      // MUST be assigned under the BUILDER_CODE ("builder-code") key — spreading it at
+      // the top level dumps `info`/`schema` as loose keys and the resource server never
+      // emits the `a` app code into the settlement calldata.
+      [BUILDER_CODE]: declareBuilderCodeExtension(MY_BUILDER_CODE),
       // Bazaar discovery metadata: tells agents and facilitators how to call this endpoint.
       ...(() => {
         const ext = declareDiscoveryExtension({
