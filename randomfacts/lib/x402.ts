@@ -25,10 +25,19 @@ export const PAY_TO_ADDRESS = process.env.PAY_TO_ADDRESS ?? "0x00000000000000000
 export const MY_BUILDER_CODE = process.env.BUILDER_CODE ?? "bc_your_code"
 
 /**
- * Price per request, expressed in USD. The CDP facilitator resolves "$" prices
- * to USDC on Base mainnet.
+ * Base mainnet USDC contract.
  */
-export const PRICE = "$4" as const
+export const BASE_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const
+
+/**
+ * Price per request in USDC atomic units. USDC has 6 decimals, so $4.00 is
+ * exactly 4,000,000 atomic units. Using an explicit asset amount prevents a
+ * stale or ambiguous dollar-price conversion from advertising $0.001.
+ */
+export const PRICE = {
+  asset: BASE_USDC,
+  amount: "4000000",
+} as const
 
 /**
  * Normalizes a CDP credential read from the environment.
