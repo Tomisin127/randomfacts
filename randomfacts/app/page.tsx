@@ -1,7 +1,7 @@
 const ENDPOINT_PATH = "/api/random-fact"
 
 const DETAILS = [
-  { label: "Price", value: "0.001 USDC" },
+  { label: "Price", value: "4 USDC" },
   { label: "Network", value: "Base mainnet (eip155:8453)" },
   { label: "Scheme", value: "exact" },
   { label: "Facilitator", value: "Coinbase CDP" },
@@ -19,7 +19,7 @@ export default function Page() {
         </span>
         <h1 className="text-pretty text-3xl font-semibold tracking-tight">randomfactsx402</h1>
         <p className="text-pretty leading-relaxed text-muted-foreground">
-          A pay-per-use HTTP endpoint. Send an x402 payment of 0.001 USDC on Base mainnet and the endpoint returns a
+          A pay-per-use HTTP endpoint. Send an x402 payment of 4 USDC on Base mainnet and the endpoint returns a
           random fact as JSON. Agents can discover it automatically through the x402 Bazaar, and every settlement is
           attributed to a Base Builder Code (ERC-8021).
         </p>
@@ -47,7 +47,7 @@ export default function Page() {
             An unpaid request returns <code className="font-mono text-foreground">402 Payment Required</code> with the
             payment requirements challenge.
           </li>
-          <li>An x402 client (or Bazaar-aware agent) signs and submits the 0.001 USDC payment on Base mainnet.</li>
+          <li>An x402 client (or Bazaar-aware agent) signs and submits the 4 USDC payment on Base mainnet.</li>
           <li>The Coinbase CDP facilitator verifies and settles the payment, attributing the builder code.</li>
           <li>The endpoint responds with a random fact.</li>
         </ol>
