@@ -28,7 +28,7 @@ export const MY_BUILDER_CODE = process.env.BUILDER_CODE ?? "bc_your_code"
  * Price per request, expressed in USD. The CDP facilitator resolves "$" prices
  * to USDC on Base mainnet.
  */
-export const PRICE = "$0.1" as const
+export const PRICE = "$0.05" as const
 
 /**
  * Normalizes a CDP credential read from the environment.
