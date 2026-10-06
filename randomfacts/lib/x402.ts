@@ -15,14 +15,14 @@ export const BASE_MAINNET = "eip155:8453" as const
  * The wallet that receives the USDC for each paid request.
  * Read from the environment — never hardcode a receiving address.
  */
-export const PAY_TO_ADDRESS = process.env.PAY_TO_ADDRESS ?? "0x0000000000000000000000000000000000000000"
+export const PAY_TO_ADDRESS = process.env.WALLET_ADDRESS ?? "0x0000000000000000000000000000000000000000"
 
 /**
  * ERC-8021 Base Builder Code (app code "a") attributed on every settlement.
  * Read from the environment; replace the placeholder with your real code
  * (from https://dashboard.base.org → Settings → Builder Codes).
  */
-export const MY_BUILDER_CODE = process.env.BUILDER_CODE ?? "bc_your_code"
+export const MY_BUILDER_CODE = process.env.BASE_BUILDER_CODE ?? "bc_your_code"
 
 /**
  * Price per request, expressed in USD. The CDP facilitator resolves "$" prices
